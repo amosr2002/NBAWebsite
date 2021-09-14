@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NBA Player Info</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+</head>
+
+<body>
+
+
+
+ <section class="hero is-primary">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    NBA Info Page
+                </h1>
+            </div>
+        </div>
+    </section>
+
+<form method='post'>
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" placeholder="Lebron"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" placeholder="James"><br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
+
+ <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-offset-50 is-50">
+                    {% for play in player_data %}
+                    <div class="box">
+                        <article class="media">
+                            <div class="media-left">
+                                <figure class="image is-10x10">
+                                    <img src="{{ play.get('player_img') }}" alt="Image">
+                                </figure>
+                            </div>
+
+
+
+                            <div class="media-content">
+                                <div class="content">
+                                    <p>
+                                        <span class="title">{{ play.get('player_name') }}</span>
+                                        <br>
+                                        <span class="subtitle">{{ play.get('team_name') }}</span>
+                                        <br> {{ play.get('player_height') }}
+
+                                        <span class="subtitle">
+                                            <table style="width:100%">
+                                              <tr>
+                                                <th>Points</th>
+                                                <th>Rebounds</th>
+                                                <th>Assists</th>
+                                                <th>Minutes</th>
+                                              </tr>
+                                              <tr>
+                                                <td>{{ play.get('player_ppg') }}</td>
+                                                <td>{{ play.get('player_rpg') }}</td>
+                                                <td>{{ play.get('player_apg') }}</td>
+                                                <td>{{ play.get('player_mpg') }}</td>
+                                              </tr>
+                                            </table>
+                                        </span>
+
+                                    </p>
+                                </div>
+                                 <div class="media-right">
+                                <a href="{{ url_for('player_info', first_name=play.get('player_first_name'), last_name=play.get('player_last_name')) }}">
+                                    <input type="submit" value="More Info">
+                                </a>
+                            </div>
+                            </div>
+
+                             <div class="media-right">
+                                <a href="{{ url_for('delete_player', first_name=play.get('player_first_name'), last_name=play.get('player_last_name'))}}">
+                                    <button class="delete"></button>
+                                </a>
+                            </div>
+
+                        </article>
+
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
